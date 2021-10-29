@@ -25,7 +25,7 @@ class Authentication {
     return _firstScreen;
   }
 
-  static Future<FirebaseApp> initializeFirebase() async {
+  static Future<FirebaseApp> initializeFirebase(BuildContext context) async {
     Future<FirebaseApp> firebaseApp = Firebase.initializeApp();
 
     return firebaseApp;

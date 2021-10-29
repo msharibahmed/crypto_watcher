@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
 //
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
+//
 import 'package:flutter_application_2/firebase_auth.dart';
 
 void main() async {
-  runApp(const MyApp());
+  //for transparent status bar
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor: Colors.indigo,
+      statusBarIconBrightness: Brightness.dark,
+      systemNavigationBarDividerColor: Colors.transparent));
 
   //firebase initialization
   WidgetsFlutterBinding.ensureInitialized();
-  await Authentication.initializeFirebase();
+  await Firebase.initializeApp();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -17,6 +26,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      routes: {
+        
+      },
       home: Authentication.firstScreen(),
     );
   }
