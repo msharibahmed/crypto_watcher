@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
-
+//
 import 'screens/home_screen.dart';
+//
+import 'package:flutter_application_2/firebase_auth.dart';
 
-void main() {
+
+void main() async{
   runApp(const MyApp());
+
+    //firebase initialization
+  WidgetsFlutterBinding.ensureInitialized();
+  await Authentication.initializeFirebase();
 }
 
 class MyApp extends StatelessWidget {
