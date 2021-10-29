@@ -4,11 +4,10 @@ import 'screens/home_screen.dart';
 //
 import 'package:flutter_application_2/firebase_auth.dart';
 
-
-void main() async{
+void main() async {
   runApp(const MyApp());
 
-    //firebase initialization
+  //firebase initialization
   WidgetsFlutterBinding.ensureInitialized();
   await Authentication.initializeFirebase();
 }
@@ -18,9 +17,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      home: Authentication.firstScreen(),
     );
   }
 }
