@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/widgets/google_signin_btn.dart';
-
-import '../firebase_auth.dart';
 //
+import 'package:flutter_application_2/widgets/google_signin_btn.dart';
+//
+import '../firebase_auth.dart';
 
 class LoginScreen extends StatelessWidget {
   static const routeName = '/login';
