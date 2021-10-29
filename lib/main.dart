@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 //
-import 'screens/home_screen.dart';
-//
 import 'package:flutter_application_2/firebase_auth.dart';
 
 void main() async {
