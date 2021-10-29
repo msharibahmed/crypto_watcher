@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 //
 import 'package:flutter_application_2/firebase_auth.dart';
+import 'package:flutter_application_2/utils/routing.dart';
 
 void main() async {
   //for transparent status bar
@@ -26,9 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      routes: {
-        
-      },
+      routes: routingMap,
       home: Authentication.firstScreen(),
     );
   }
