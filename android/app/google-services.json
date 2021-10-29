@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "799669787436",
+    "project_id": "crypto-tracker-c8728",
+    "storage_bucket": "crypto-tracker-c8728.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:799669787436:android:f3d060db36b8e895956a89",
+        "android_client_info": {
+          "package_name": "com.msharibahmed.crypto_watcher"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "799669787436-i639ig3n5mckdki1gfpfllr770q4tdm9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCojHaF_ao6Yoz0x5Wai1HJsDHNcncpbIs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "799669787436-i639ig3n5mckdki1gfpfllr770q4tdm9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
