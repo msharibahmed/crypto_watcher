@@ -1,0 +1,50 @@
+import 'dart:convert';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_application_2/models/watcher_model.dart';
+import 'package:flutter_application_2/providers/home_provider.dart';
+import 'package:http/http.dart' as http;
+
+class WatcherProvider with ChangeNotifier {
+  List<WatcherModel> _showWatcherCryptos = [];
+  List<WatcherModel> get showWatcherCryptos => [..._showWatcherCryptos];
+  Future<void> getWactherCryptos(
+      BuildContext context, String getCryptoIds) async {
+    String uri = 'https://api.coincap.io/v2/assets?ids=$getCryptoIds';
+    try {
+      final response = await http.get(Uri.parse(uri));
+
+      final dataBody = jsonDecode(response.body)['data'];
+      print(dataBody);
+      List<WatcherModel> _temp = [];
+      for (var e in dataBody) {
+        _temp.add(WatcherModel(
+            id: '',
+            cryptoId: e['id'],
+            name: e['name'],
+            priceUsd: e['priceUsd']));
+      }
+
+      _showWatcherCryptos = _temp;
+      print(_showWatcherCryptos);
+    } catch (error) {
+      print('got error while calling getWatcherCryptos : $error');
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Server error please try again later')));
+    }
+    notifyListeners();
+  }
+
+  var isIncreasing = true;
+  void updateItem(String cryptoId, String price) {
+    var item =
+        _showWatcherCryptos.firstWhere((item) => item.cryptoId == cryptoId);
+    item.priceUsd = price;
+    if ((int.parse(item.priceUsd)) <= int.parse(price)) {
+      isIncreasing = true;
+    } else {
+      isIncreasing = false;
+    }
+    notifyListeners();
+  }
+}
