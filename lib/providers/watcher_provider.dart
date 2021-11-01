@@ -9,7 +9,6 @@ class WatcherProvider with ChangeNotifier {
   List<WatcherModel> get showWatcherCryptos => [..._showWatcherCryptos];
   Future<void> getWactherCryptos(
       BuildContext context, String getCryptoIds) async {
-        
     String uri = 'https://api.coincap.io/v2/assets?ids=$getCryptoIds';
     try {
       final response = await http.get(Uri.parse(uri));
@@ -29,21 +28,22 @@ class WatcherProvider with ChangeNotifier {
       // print(_showWatcherCryptos);
     } catch (error) {
       print('got error while calling getWatcherCryptos : $error');
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Server error please try again later'),backgroundColor: Colors.grey,));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Server error please try again later'),
+        backgroundColor: Colors.grey,
+      ));
     }
     notifyListeners();
   }
 
   void updateItem(String cryptoId, String price) {
-  
     var item =
         _showWatcherCryptos.firstWhere((item) => item.cryptoId == cryptoId);
-        double _oldPrice =double.parse(item.priceUsd);
-        double _newPrice = double.parse(price);
-    if ( _oldPrice == _newPrice)  {
+    double _oldPrice = double.parse(item.priceUsd);
+    double _newPrice = double.parse(price);
+    if (_oldPrice == _newPrice) {
       item.priceVariation = 0;
-    }else if (_oldPrice < _newPrice) {
+    } else if (_oldPrice < _newPrice) {
       item.priceVariation = 1;
     } else {
       item.priceVariation = 2;
