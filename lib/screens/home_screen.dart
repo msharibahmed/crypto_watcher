@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 //
@@ -26,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_check) {
-      Provider.of<HomeProvider>(context).getWatcherData(context).then((value) =>
+      Provider.of<HomeProvider>(context).getWatcherData(context,FirebaseAuth.instance.currentUser!.uid).then((value) =>
           Provider.of<HomeProvider>(context, listen: false)
               .getData(context)
               .then((value) {

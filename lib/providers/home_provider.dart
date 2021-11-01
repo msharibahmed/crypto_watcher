@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/models/watcher_model.dart';
 import 'package:http/http.dart' as http;
@@ -34,8 +33,6 @@ class HomeProvider with ChangeNotifier {
     return {..._watcherCryptos};
   }
 
-  final _authToken = FirebaseAuth.instance.currentUser!.uid;
-
   Future<void> getData(BuildContext context) async {
     try {
       var url = Uri.parse('https://api.coincap.io/v2/assets');
@@ -58,10 +55,10 @@ class HomeProvider with ChangeNotifier {
     }
   }
 
-  Future<void> addToWatcher(BuildContext context, WatcherModel model) async {
+  Future<void> addToWatcher(BuildContext context, WatcherModel model,String authToken) async {
     try {
       var url = Uri.parse(
-          'https://crypto-tracker-c8728-default-rtdb.firebaseio.com/$_authToken.json');
+          'https://crypto-tracker-c8728-default-rtdb.firebaseio.com/$authToken.json');
       final response =
           await http.post(url, body: jsonEncode({'id': model.cryptoId}));
       final databody = jsonDecode(response.body);
@@ -78,11 +75,11 @@ class HomeProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> deleteFromWatcher(BuildContext context, String cryptoId) async {
+  Future<void> deleteFromWatcher(BuildContext context, String cryptoId,String authToken) async {
     var _id = _getIdByCryptoId(cryptoId);
     try {
       var url = Uri.parse(
-          'https://crypto-tracker-c8728-default-rtdb.firebaseio.com/$_authToken/$_id.json');
+          'https://crypto-tracker-c8728-default-rtdb.firebaseio.com/$authToken/$_id.json');
       final response = await http.delete(url);
       final databody = jsonDecode(response.body);
       print(databody);
@@ -100,10 +97,10 @@ class HomeProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getWatcherData(BuildContext context) async {
+  Future<void> getWatcherData(BuildContext context,String authToken) async {
     try {
       var url = Uri.parse(
-          'https://crypto-tracker-c8728-default-rtdb.firebaseio.com/$_authToken.json');
+          'https://crypto-tracker-c8728-default-rtdb.firebaseio.com/$authToken.json');
       final response = await http.get(url);
       Map<dynamic, dynamic> databody = jsonDecode(response.body) ?? {};
       print(databody);

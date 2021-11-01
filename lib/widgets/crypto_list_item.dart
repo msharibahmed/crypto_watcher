@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_application_2/models/watcher_model.dart';
@@ -22,7 +23,7 @@ class CryptoItem extends StatelessWidget {
                     onPressed: () async {
                       if (isPresent) {
                         await Provider.of<HomeProvider>(context, listen: false)
-                            .deleteFromWatcher(context, model.cryptoId);
+                            .deleteFromWatcher(context, model.cryptoId,FirebaseAuth.instance.currentUser!.uid);
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
@@ -52,7 +53,7 @@ class CryptoItem extends StatelessWidget {
                     onPressed: () async {
                       if (!isPresent) {
                         await Provider.of<HomeProvider>(context, listen: false)
-                            .addToWatcher(context, model);
+                            .addToWatcher(context, model,FirebaseAuth.instance.currentUser!.uid);
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(

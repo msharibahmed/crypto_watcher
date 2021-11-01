@@ -8,6 +8,7 @@ import 'screens/splash_screen.dart';
 import 'screens/home_screen.dart';
 
 class Authentication {
+  static String userId = '';
   static Widget firstScreen() {
     Widget _firstScreen = FutureBuilder<User?>(
         future: FirebaseAuth.instance.authStateChanges().first,
@@ -53,6 +54,7 @@ class Authentication {
             await auth.signInWithCredential(credential);
 
         user = userCredential.user;
+        userId = auth.currentUser!.uid;
       } on FirebaseAuthException catch (e) {
         if (e.code == 'account-exists-with-different-credential') {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -84,6 +86,7 @@ class Authentication {
     try {
       await FirebaseAuth.instance.signOut();
       await GoogleSignIn().signOut();
+      userId = '';
       Navigator.pushReplacementNamed(context, LoginScreen.routeName);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
