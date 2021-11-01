@@ -9,6 +9,7 @@ class WatcherProvider with ChangeNotifier {
   List<WatcherModel> get showWatcherCryptos => [..._showWatcherCryptos];
   Future<void> getWactherCryptos(
       BuildContext context, String getCryptoIds) async {
+        
     String uri = 'https://api.coincap.io/v2/assets?ids=$getCryptoIds';
     try {
       final response = await http.get(Uri.parse(uri));
@@ -35,12 +36,17 @@ class WatcherProvider with ChangeNotifier {
   }
 
   void updateItem(String cryptoId, String price) {
+  
     var item =
         _showWatcherCryptos.firstWhere((item) => item.cryptoId == cryptoId);
-    if ((double.parse(item.priceUsd)) <= double.parse(price)) {
-      item.isIncreasing = true;
+        double _oldPrice =double.parse(item.priceUsd);
+        double _newPrice = double.parse(price);
+    if ( _oldPrice == _newPrice)  {
+      item.priceVariation = 0;
+    }else if (_oldPrice < _newPrice) {
+      item.priceVariation = 1;
     } else {
-      item.isIncreasing = false;
+      item.priceVariation = 2;
     }
     item.priceUsd = price;
 

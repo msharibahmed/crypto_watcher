@@ -24,20 +24,22 @@ class _WatcherScreenState extends State<WatcherScreen> {
   @override
   void initState() {
     super.initState();
+    var _homeProv = Provider.of<HomeProvider>(context, listen: false);
+    var _watcherCryptoIds = _homeProv.getWatcherCryptoIds;
 
-    var _watcherCryptoIds =
-        Provider.of<HomeProvider>(context, listen: false).getWatcherCryptoIds;
-    try {
-      Provider.of<WatcherProvider>(context, listen: false)
-          .getWactherCryptos(context, _watcherCryptoIds)
-          .then((data) {
-        setState(() {
-          showLoader = false;
+    if (_homeProv.watcherCryptos.isNotEmpty) {
+      try {
+        Provider.of<WatcherProvider>(context, listen: false)
+            .getWactherCryptos(context, _watcherCryptoIds)
+            .then((data) {
+          setState(() {
+            showLoader = false;
+          });
         });
-      });
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("An error occured while getting Crypto list")));
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("An error occured while getting Crypto list")));
+      }
     }
     channel = IOWebSocketChannel.connect(
         'wss://ws.coincap.io/prices?assets=$_watcherCryptoIds');
@@ -46,8 +48,12 @@ class _WatcherScreenState extends State<WatcherScreen> {
       Map<String, dynamic> decoded = jsonDecode(data);
 
       decoded.forEach((key, value) {
-        Provider.of<WatcherProvider>(context, listen: false)
-            .updateItem(key, value);
+        if (_homeProv.watcherCryptos.isNotEmpty) {
+          if (mounted) {
+            Provider.of<WatcherProvider>(context, listen: false)
+                .updateItem(key, value);
+          }
+        }
       });
     });
   }
@@ -60,26 +66,29 @@ class _WatcherScreenState extends State<WatcherScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var _homeProv = Provider.of<HomeProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Watch List'),
       ),
-      body: SizedBox(
-          height: double.infinity,
-          child: !showLoader
-              ? Consumer<WatcherProvider>(
-                  builder: (context, watcherProv, _) => ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (context, index) {
-                      return WatcherItemCardWidget(
-                        crypto: watcherProv.showWatcherCryptos[index],
-                      );
-                    },
-                    itemCount: watcherProv.showWatcherCryptos.length,
-                  ),
-                )
-              : const SplashScreen()),
+      body: _homeProv.watcherCryptos.isEmpty
+          ? const Center(child: Text('Add cryptos to start tracking!'))
+          : SizedBox(
+              height: double.infinity,
+              child: !showLoader
+                  ? Consumer<WatcherProvider>(
+                      builder: (context, watcherProv, _) => ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemBuilder: (context, index) {
+                          return WatcherItemCardWidget(
+                            crypto: watcherProv.showWatcherCryptos[index],
+                          );
+                        },
+                        itemCount: watcherProv.showWatcherCryptos.length,
+                      ),
+                    )
+                  : const SplashScreen()),
     );
   }
 }

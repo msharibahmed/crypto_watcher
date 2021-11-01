@@ -15,6 +15,43 @@ class WatcherItemCardWidget extends StatelessWidget {
     Colors.red[300] ?? const Color(0xFF42A5F5),
     Colors.red[200] ?? const Color(0xFF42A5F5),
   ];
+  final List<Color> neutralGrad = [
+    Colors.blue[400] ?? const Color(0xFF42A5F5),
+    Colors.blue[300] ?? const Color(0xFF42A5F5),
+    Colors.blue[200] ?? const Color(0xFF42A5F5),
+  ];
+  List<Color> gradColor(int variation) {
+    if (variation == 0) {
+      return neutralGrad;
+    } else if (variation == 1) {
+      return increasingGrad;
+    }
+    return decreasingGrad;
+  }
+
+  Widget priceVarIcon(int variation) {
+    if (variation == 0) {
+      return Padding(
+        padding: const EdgeInsets.only(bottom:10.0),
+        child: Icon(
+          Icons.minimize,
+          color: Colors.blue[600],
+          size: 20,
+        ),
+      );
+    } else if (variation == 1) {
+      return Icon(
+        Icons.arrow_upward,
+        color: Colors.green[600],
+        size: 20,
+      );
+    }
+    return Icon(
+      Icons.arrow_downward,
+      color: Colors.red[600],
+      size: 20,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +61,7 @@ class WatcherItemCardWidget extends StatelessWidget {
       margin: const EdgeInsets.all(15),
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-            colors: crypto.isIncreasing ? increasingGrad : decreasingGrad),
+        gradient: LinearGradient(colors: gradColor(crypto.priceVariation)),
         borderRadius: const BorderRadius.all(
           Radius.circular(10),
         ),
@@ -61,17 +97,7 @@ class WatcherItemCardWidget extends StatelessWidget {
           ),
           Row(
             children: <Widget>[
-              crypto.isIncreasing
-                  ? Icon(
-                      Icons.arrow_upward,
-                      color: Colors.green[600],
-                      size: 20,
-                    )
-                  : Icon(
-                      Icons.arrow_downward,
-                      color: Colors.red[600],
-                      size: 20,
-                    ),
+              priceVarIcon(crypto.priceVariation),
               Text(
                 '\$${double.parse(crypto.priceUsd).toStringAsFixed(5)}',
                 style: const TextStyle(

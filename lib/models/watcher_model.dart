@@ -3,11 +3,11 @@ class WatcherModel {
   String cryptoId;
   String name;
   String priceUsd;
-  bool isIncreasing;
+  int priceVariation;
   WatcherModel(
       {required this.id,
       required this.cryptoId,
       required this.name,
-      this.isIncreasing = true,
+      this.priceVariation = 0,
       required this.priceUsd});
 }
