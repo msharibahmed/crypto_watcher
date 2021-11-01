@@ -4,7 +4,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 //
 import 'package:flutter_application_2/firebase_auth.dart';
+import 'package:flutter_application_2/providers/home_provider.dart';
+import 'package:flutter_application_2/providers/watcher_provider.dart';
 import 'package:flutter_application_2/utils/routing.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   //for transparent status bar
@@ -25,10 +28,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      routes: routingMap,
-      home: Authentication.firstScreen(),
-    );
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider<HomeProvider>(create: (_) => HomeProvider()),
+          ChangeNotifierProvider<WatcherProvider>(create: (_) => WatcherProvider()),
+        ],
+        builder: (context, child) => MaterialApp(
+              debugShowCheckedModeBanner: false,
+              routes: routingMap,
+              home: Authentication.firstScreen(),
+            ));
   }
 }
