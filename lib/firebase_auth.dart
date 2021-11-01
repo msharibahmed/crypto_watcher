@@ -83,6 +83,7 @@ class Authentication {
   static Future<void> signOut({required BuildContext context}) async {
     try {
       await FirebaseAuth.instance.signOut();
+      await GoogleSignIn().signOut();
       Navigator.pushReplacementNamed(context, LoginScreen.routeName);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
