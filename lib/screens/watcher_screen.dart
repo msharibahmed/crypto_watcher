@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/providers/home_provider.dart';
 import 'package:flutter_application_2/providers/watcher_provider.dart';
+import 'package:flutter_application_2/screens/splash_screen.dart';
 import 'package:flutter_application_2/widgets/watcher_item.dart';
 import 'package:provider/provider.dart';
 import 'package:web_socket_channel/io.dart';
@@ -28,7 +29,7 @@ class _WatcherScreenState extends State<WatcherScreen> {
         Provider.of<HomeProvider>(context, listen: false).getWatcherCryptoIds;
     try {
       Provider.of<WatcherProvider>(context, listen: false)
-          .getWactherCryptos(context,_watcherCryptoIds)
+          .getWactherCryptos(context, _watcherCryptoIds)
           .then((data) {
         setState(() {
           showLoader = false;
@@ -54,33 +55,31 @@ class _WatcherScreenState extends State<WatcherScreen> {
   @override
   void dispose() {
     channel.sink.close();
-  
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: SizedBox(
-        height: double.infinity,
-        child: !showLoader
-            ? ListView.builder(
-                scrollDirection: Axis.vertical,
-                itemBuilder: (context, index) {
-                  return WatcherItemCardWidget(
-                    currencyDetails: Provider.of<WatcherProvider>(context)
-                        .showWatcherCryptos[index],
-                  );
-                },
-                itemCount: Provider.of<WatcherProvider>(context)
-                    .showWatcherCryptos
-                    .length,
-              )
-            : const Center(
-                child: CircularProgressIndicator(),
-              ),
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text('Watch List'),
       ),
+      body: SizedBox(
+          height: double.infinity,
+          child: !showLoader
+              ? Consumer<WatcherProvider>(
+                  builder: (context, watcherProv, _) => ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (context, index) {
+                      return WatcherItemCardWidget(
+                        crypto: watcherProv.showWatcherCryptos[index],
+                      );
+                    },
+                    itemCount: watcherProv.showWatcherCryptos.length,
+                  ),
+                )
+              : const SplashScreen()),
     );
   }
 }

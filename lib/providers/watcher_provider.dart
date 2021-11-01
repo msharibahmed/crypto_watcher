@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/models/watcher_model.dart';
 import 'package:http/http.dart' as http;
+//
+import 'package:flutter_application_2/models/watcher_model.dart';
 
 class WatcherProvider with ChangeNotifier {
   List<WatcherModel> _showWatcherCryptos = [];
@@ -29,7 +29,7 @@ class WatcherProvider with ChangeNotifier {
     } catch (error) {
       print('got error while calling getWatcherCryptos : $error');
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Server error please try again later')));
+          const SnackBar(content: Text('Server error please try again later'),backgroundColor: Colors.grey,));
     }
     notifyListeners();
   }

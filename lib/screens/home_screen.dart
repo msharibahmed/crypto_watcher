@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 //
 import 'package:flutter_application_2/firebase_auth.dart';
-import 'package:flutter_application_2/providers/home_provider.dart';
-import 'package:flutter_application_2/widgets/crypto_list_item.dart';
-import 'package:provider/provider.dart';
-
-import 'watcher_screen.dart';
 //
+import 'package:flutter_application_2/providers/home_provider.dart';
+//
+import 'package:flutter_application_2/widgets/crypto_list_item.dart';
+//
+import 'watcher_screen.dart';
+import 'splash_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -39,11 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return _isLoading
-        ? const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          )
+        ? const SplashScreen()
         : Scaffold(
             appBar: AppBar(
               leading: IconButton(
@@ -100,13 +98,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           // print(input);
                         }),
                     Expanded(
-                        child: ListView.builder(
-                      itemBuilder: (context, index) => CryptoItem(
-                          model: Provider.of<HomeProvider>(context)
-                              .searchCryptos[index]),
-                      itemCount: Provider.of<HomeProvider>(context)
-                          .searchCryptos
-                          .length,
+                        child: Consumer<HomeProvider>(
+                      builder: (context, homeProv, _) => ListView.builder(
+                        itemBuilder: (context, index) =>
+                            CryptoItem(model: homeProv.searchCryptos[index]),
+                        itemCount: homeProv.searchCryptos.length,
+                      ),
                     ))
                   ],
                 ),

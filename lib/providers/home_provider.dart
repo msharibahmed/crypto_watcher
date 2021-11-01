@@ -124,7 +124,10 @@ class HomeProvider with ChangeNotifier {
   String _getIdByCryptoId(String cryptoId) => _watcherCryptos.keys
       .firstWhere((key) => _watcherCryptos[key] == cryptoId);
   void showSnackBar({required BuildContext context, required String text}) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(text),
+      backgroundColor: Colors.grey,
+    ));
   }
 
   String get getWatcherCryptoIds => [..._watcherCryptos.values].join(',');
