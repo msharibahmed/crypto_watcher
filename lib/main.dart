@@ -13,7 +13,7 @@ void main() async {
   //for transparent status bar
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
-      systemNavigationBarColor: Colors.indigo,
+      systemNavigationBarColor: Colors.black,
       statusBarIconBrightness: Brightness.dark,
       systemNavigationBarDividerColor: Colors.transparent));
 
@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
         builder: (context, child) => MaterialApp(
               debugShowCheckedModeBanner: false,
               routes: routingMap,
+              theme: ThemeData.dark(),
               home: Authentication.firstScreen(),
             ));
   }
