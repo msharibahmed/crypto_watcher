@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/models/watcher_model.dart';
 import 'package:flutter_application_2/providers/home_provider.dart';
 import 'package:flutter_application_2/providers/watcher_provider.dart';
 import 'package:flutter_application_2/widgets/watcher_item.dart';

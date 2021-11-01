@@ -37,7 +37,10 @@ class _WatcherItemCardWidgetState extends State<WatcherItemCardWidget> {
       margin: const EdgeInsets.all(15),
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        gradient: gradient,
+        // gradient: gradient,
+        color: widget.currencyDetails.isIncreasing
+            ? Colors.green[200]
+            : Colors.red[200],
         borderRadius: const BorderRadius.all(
           Radius.circular(10),
         ),
@@ -59,7 +62,7 @@ class _WatcherItemCardWidgetState extends State<WatcherItemCardWidget> {
                   //     )
                   //   ],
                   // ),
-                 
+
                   Padding(
                     padding: const EdgeInsets.only(left: 10),
                     child: Column(

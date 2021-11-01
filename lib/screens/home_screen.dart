@@ -73,7 +73,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   .watcherCryptos
                                   .length
                                   .toString(),
-                              style:  TextStyle(color: Colors.orange[300],fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  color: Colors.orange[300],
+                                  fontWeight: FontWeight.bold),
                             ))
                       ],
                     ))
@@ -89,13 +91,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 100,
                     ),
                     TextFormField(
-                      decoration:InputDecoration(icon: Icon(Icons.keyboard),hintText: 'Enter crypto name...')
-                      ,onChanged: (input) {
-                    
-                      Provider.of<HomeProvider>(context, listen: false)
-                          .showCryptosBySearch(input);
-                      // print(input);
-                    }),
+                        decoration: const InputDecoration(
+                            icon: Icon(Icons.keyboard),
+                            hintText: 'Enter crypto name...'),
+                        onChanged: (input) {
+                          Provider.of<HomeProvider>(context, listen: false)
+                              .showCryptosBySearch(input);
+                          // print(input);
+                        }),
                     Expanded(
                         child: ListView.builder(
                       itemBuilder: (context, index) => CryptoItem(
